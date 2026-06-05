@@ -94,27 +94,31 @@ TopViewControllerForViewController(UIViewController *viewController) {
         NSFileManager *fileManager=[NSFileManager defaultManager];
         BOOL fileExist=[fileManager fileExistsAtPath:msg];
         if(fileExist){
-            _documentController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:msg]];
-            _documentController.delegate = self;
             NSString *uti = call.arguments[@"uti"];
-            BOOL isBlank = [self isBlankString:uti];
-            if(!isBlank){
-                _documentController.UTI = uti;
-            }
-            @try {
-                BOOL previewSucceeded = [_documentController presentPreviewAnimated:YES];
-                if(!previewSucceeded){
-                    UIViewController *rootViewController = RootViewController();
-                    UIViewController *viewController =
-                                TopViewControllerForViewController(rootViewController);
-                    [_documentController presentOpenInMenuFromRect:CGRectMake(500,20,100,100) inView:viewController.view animated:YES];
+            BOOL useIosDefaultApp = [call.arguments[@"use_ios_default_app"] boolValue];
+
+            if (useIosDefaultApp) {
+                if (@available(iOS 26, *)) {
+                    NSURL *fileURL = [NSURL fileURLWithPath:msg];
+                    [[UIApplication sharedApplication] openURL:fileURL
+                                                      options:@{}
+                                            completionHandler:^(BOOL success) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (success) {
+                                NSDictionary *dict = @{@"message":@"done", @"type":@0};
+                                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+                                NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                                self->_result(json);
+                            } else {
+                                [self openWithDocumentInteraction:msg uti:uti];
+                            }
+                        });
+                    }];
+                    return;
                 }
-            }@catch (NSException *exception) {
-                NSDictionary * dict = @{@"message":@"File opened incorrectly。", @"type":@-4};
-                NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-                NSString * json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                result(json);
             }
+
+            [self openWithDocumentInteraction:msg uti:uti];
         }else{
             NSDictionary * dict = @{@"message":@"the file does not exist", @"type":@-2};
             NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
@@ -124,6 +128,29 @@ TopViewControllerForViewController(UIViewController *viewController) {
         }
     } else {
         result(FlutterMethodNotImplemented);
+    }
+}
+
+- (void)openWithDocumentInteraction:(NSString *)filePath uti:(NSString *)uti {
+    _documentController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:filePath]];
+    _documentController.delegate = self;
+    BOOL isBlank = [self isBlankString:uti];
+    if(!isBlank){
+        _documentController.UTI = uti;
+    }
+    @try {
+        BOOL previewSucceeded = [_documentController presentPreviewAnimated:YES];
+        if(!previewSucceeded){
+            UIViewController *rootViewController = RootViewController();
+            UIViewController *viewController =
+                        TopViewControllerForViewController(rootViewController);
+            [_documentController presentOpenInMenuFromRect:CGRectMake(500,20,100,100) inView:viewController.view animated:YES];
+        }
+    }@catch (NSException *exception) {
+        NSDictionary * dict = @{@"message":@"File opened incorrectly.", @"type":@-4};
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+        NSString * json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        _result(json);
     }
 }
 
