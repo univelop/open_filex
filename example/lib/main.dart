@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:yust_open_file_x/yust_open_file_x.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(const MyApp());

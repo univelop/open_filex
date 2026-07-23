@@ -1,4 +1,4 @@
-library open_filex;
+library yust_open_file_x;
 
 /// OpenResult is a class to inform result of platform
 export 'src/common/open_result.dart';

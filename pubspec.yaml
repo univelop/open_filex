@@ -1,7 +1,8 @@
-name: open_filex
-description: A plug-in that can call native APP to open files with string result in flutter, support iOS(UTI) / android(intent) / PC(ffi) / web(dart:html)
-version: 4.7.0
-homepage: https://github.com/javaherisaber/open_file
+name: yust_open_file_x
+description: A Univelop fork of open_filex that adds iOS 26 default-app support (useIosDefaultApp flag). Opens files via the native app on iOS/Android/desktop/web.
+version: 4.7.1
+homepage: https://github.com/univelop/open_filex
+repository: https://github.com/univelop/open_filex
 
 dependencies:
   flutter:

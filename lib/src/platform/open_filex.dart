@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:open_filex/src/common/open_result.dart';
+import 'package:yust_open_file_x/src/common/open_result.dart';
 
 /// OpenFilex class
 class OpenFilex {

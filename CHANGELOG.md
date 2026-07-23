@@ -1,3 +1,7 @@
+## 4.7.1
+* **First release of `yust_open_file_x`** — Univelop fork of [`open_filex`](https://pub.dev/packages/open_filex), published because git dependencies are not allowed in packages published to pub.dev.
+* Add `useIosDefaultApp` flag: on iOS 26+, opens files via `UIApplication.openURL:` so the user's default app for that file type is used, falling back to `UIDocumentInteractionController` on older iOS or on failure.
+
 ## 4.7.0
 * Fix Android compatibility issues after Flutter 3.29.0 upgrade (Thanks to [mufassalhussain](https://github.com/mufassalhussain), PR[#19](https://github.com/javaherisaber/open_filex/pull/19))
 
