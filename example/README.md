@@ -1,17 +1,17 @@
-# open_filex
+# yust_open_file_x
 
 A plug-in that can open files for android
 
 ## Usage
 
-To use this plugin, add [open_filex](https://pub.dev/packages/open_filex/install) as a dependency in your pubspec.yaml file.
+To use this plugin, add [yust_open_file_x](https://pub.dev/packages/yust_open_file_x/install) as a dependency in your pubspec.yaml file.
 
 ## How to test this example in emulator
 Add a .png file to /Download folder and run the example project
 
 ## Example
 ```
-import 'package:open_filex/open_filex.dart';
+import 'package:yust_open_file_x/yust_open_file_x.dart';
 
 OpenFilex.open("/sdcard/text.txt");
 ```

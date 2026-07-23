@@ -1,35 +1,45 @@
-# open_filex
-[![pub package](https://img.shields.io/pub/v/open_filex.svg)](https://pub.dev/packages/open_filex)
+# yust_open_file_x
+[![pub package](https://img.shields.io/pub/v/yust_open_file_x.svg)](https://pub.dev/packages/yust_open_file_x)
 
-A plug-in that can call native APP to open files with string result in flutter, support iOS(DocumentInteraction) / android(intent) / PC(ffi) / web(dart:html)
+A plug-in that can call native APP to open files with string result in flutter, support iOS(DocumentInteraction) / android(intent) / PC(ffi) / web(dart:html).
 
 ## Notice
-This package is a fork of [open_file](https://pub.dev/packages/open_file) to fix the following issues:
-- Remove `REQUEST_INSTALL_PACKAGES` permission in Android to comply with GooglePlay publish policies
+
+**This package is a Univelop fork of [open_filex](https://pub.dev/packages/open_filex)** (which itself forks [open_file](https://pub.dev/packages/open_file)). It exists to add support that upstream does not yet ship:
+
+- **`useIosDefaultApp` flag** — on iOS 26+, routes opens through `UIApplication.openURL:` so the user's chosen default app handles the file (falling back to the classic `UIDocumentInteractionController` on older iOS or if the system open fails).
+
+We publish this fork so it can be used as a normal pub.dev dependency (git dependencies are not allowed in published packages). It is intended primarily for internal Univelop use — external users are generally better served by upstream `open_filex`.
+
+Upstream fixes inherited from [open_filex](https://pub.dev/packages/open_filex):
+- Remove `REQUEST_INSTALL_PACKAGES` permission in Android to comply with Google Play publish policies
 - Update [ffi](https://pub.dev/packages/ffi) to 2.0.1+
-- Upgrade support for [granular media permissions](https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions) in Android 13
+- Support for [granular media permissions](https://developer.android.com/about/versions/13/behavior-changes-13#granular-media-permissions) in Android 13
 - Fix plugin lifecycle onDetachedFromActivity in Android
 - Fix viewController is not recognized in iOS
 - Fix parse args not filtering commands properly
-- Replace JCenter with MavenCentral in Android build.gradle repositories (since JCenter becomes unreachable sometimes due to it's end of life)
+- Replace JCenter with MavenCentral
 - Compatibility with Gradle 8+
 - iOS embedded flutter compatibility
 
-For full list of changes see [CHANGELOG](https://pub.dev/packages/open_filex/changelog)
+For the full change history, see [CHANGELOG](CHANGELOG.md).
 
 ## Usage
 
-To use this plugin, add [open_filex](https://pub.dev/packages/open_filex/install) as a dependency in your pubspec.yaml file.
+Add [yust_open_file_x](https://pub.dev/packages/yust_open_file_x/install) as a dependency in your `pubspec.yaml`:
 ```yaml
 dependencies:
-  open_filex: ^lastVersion
+  yust_open_file_x: ^lastVersion
 ```
 
 ## Example
 ```dart
-import 'package:open_filex/open_filex.dart';
+import 'package:yust_open_file_x/yust_open_file_x.dart';
 
 OpenFilex.open("/sdcard/example.txt");
+
+// iOS 26+ — respect the user's default app for this file type:
+OpenFilex.open("/path/to/file.pdf", useIosDefaultApp: true);
 ```
 
 ## Support

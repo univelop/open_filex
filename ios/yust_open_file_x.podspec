@@ -2,15 +2,15 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = 'open_filex'
-  s.version          = '0.0.2'
-  s.summary          = 'A new Flutter project.'
+  s.name             = 'yust_open_file_x'
+  s.version          = '4.7.1'
+  s.summary          = 'Univelop fork of open_filex with iOS 26 default-app support.'
   s.description      = <<-DESC
-A new Flutter project.
+Univelop fork of open_filex adding a useIosDefaultApp flag for iOS 26+ default-app routing.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/univelop/open_filex'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Univelop' => 'info@univelop.de' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
